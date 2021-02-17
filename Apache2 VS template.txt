@@ -1,0 +1,49 @@
+
+Apache2:
+sudo apt-get install apache2 libapache2-mod-wsgi-py3
+cd /etc/apache2/sites-available/
+
+sudo nano 000-default.conf
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+    
+
+    ErrorLog /home/user/site/logs/error.log
+    CustomLog /home/user/site/access.log combined
+
+    ServerName website.com
+        ServerAlias www.website.com
+
+    Alias /static /home/user/django_project/static
+    <Directory /home/user/django_project/static>
+        require all granted
+    </Directory>
+
+    Alias /media /home/user/django_project/media
+    <Directory /home/user/django_project/media>
+        require all granted
+    </Directory>
+
+    Alias /images /home/user/django_project/images
+    <Directory /home/user/django_project/images>
+        require all granted
+    </Directory>
+
+    <Directory /home/user/django_project/folder_containing_settings>
+        <files wsgi.py>
+            require all granted
+        </files>
+    </Directory>
+    
+    WSGIDaemonProcess django_project python-path=/home/user/django_project python-home=/home/user/django_project/env
+    WSGIProcessGroup django_project
+    WSGIScriptAlias / /home/user/django_project/folder_containing_settings/wsgi.py
+
+
+</VirtualHost><span style="font-weight: 400;">
+
+
+    
+sudo apachectl configtest
