@@ -1,3 +1,4 @@
+''' Python script to monitor changes in files on your computer and send email to you using crontab.'''
 import hashlib
 import glob
 import json
